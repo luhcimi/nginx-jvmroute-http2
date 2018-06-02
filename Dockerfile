@@ -34,7 +34,12 @@ WORKDIR /tmp/nginx-1.12.2
 RUN wget https://github.com/nulab/nginx-upstream-jvm-route/raw/master/jvm_route.patch
 RUN patch -t -p0 < ./jvm_route.patch 
 
-RUN ./configure --with-http_ssl_module --with-http_v2_module --with-http_realip_module --add-module=./nginx-upstream-jvm-route-1.6/ --with-zlib=./zlib-1.2.11 --with-pcre=./pcre-8.41 --with-openssl=./openssl-1.0.2o --prefix=/usr/local/nginx --with-debug --add-module=./ngx_devel_kit-0.3.1rc1/ --add-module=./set-misc-nginx-module-0.32rc1/ --add-module=./echo-nginx-module-0.61/ --add-module=./nginx-module-url-master/
+RUN ./configure --with-http_ssl_module --with-http_v2_module --with-http_realip_module \
+   --add-module=./nginx-upstream-jvm-route-1.6/ --with-zlib=./zlib-1.2.11 \
+   --with-pcre=./pcre-8.41 --with-openssl=./openssl-1.0.2o --prefix=/usr/local/nginx \
+   --with-debug --add-module=./ngx_devel_kit-0.3.1rc1/ \
+   --add-module=./set-misc-nginx-module-0.32rc1/ \
+   --add-module=./echo-nginx-module-0.61/ --add-module=./nginx-module-url-master/
 RUN make
 RUN make install
 
@@ -46,6 +51,9 @@ RUN /usr/local/nginx/sbin/nginx -t
 RUN mkdir /usr/local/nginx/ssl
 #COPY ./nginx.key /usr/local/nginx/ssl/
 #COPY ./nginx.crt /usr/local/nginx/ssl/
+
+RUN ln -sf /dev/stdout /usr/local/nginx/logs/access.log
+RUN ln -sf /dev/stderr /usr/local/nginx/logs/error.log
 
 EXPOSE 80 443
 
