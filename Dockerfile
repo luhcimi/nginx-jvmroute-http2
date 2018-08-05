@@ -23,9 +23,9 @@ RUN tar -zxvf v0.61.tar.gz
 RUN tar -zxvf master.tar.gz
 
 RUN wget https://github.com/nulab/nginx-upstream-jvm-route/archive/v1.12.0.tar.gz
-RUN tar -zxvf 1.12.tar.gz
+RUN tar -zxvf nginx-upstream-jvm-route-1.12.0.tar.gz
 
-WORKDIR /tmp/nginx-1.15.2/nginx-upstream-jvm-route-1.12
+WORKDIR /tmp/nginx-1.15.2/nginx-upstream-jvm-route-1.12.0
 RUN rm -f ngx_http_upstream_jvm_route_module.c
 RUN rm -f jvm_route.patch
 RUN wget https://github.com/nulab/nginx-upstream-jvm-route/raw/master/ngx_http_upstream_jvm_route_module.c
