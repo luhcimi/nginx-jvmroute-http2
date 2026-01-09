@@ -1,45 +1,45 @@
-FROM centos:7
-RUN yum -y groupinstall 'Development Tools'
-RUN yum -y install wget
+FROM rockylinux:8
+RUN dnf -y groupinstall 'Development Tools'
+RUN dnf -y install wget
 
 WORKDIR /tmp
-RUN wget https://nginx.org/download/nginx-1.15.2.tar.gz
-RUN tar -zxvf nginx-1.15.2.tar.gz
+RUN wget https://nginx.org/download/nginx-1.29.4.tar.gz
+RUN tar -zxvf nginx-1.29.4.tar.gz
 
-WORKDIR /tmp/nginx-1.15.2
-RUN wget https://ftp.pcre.org/pub/pcre/pcre-8.42.tar.gz
-RUN wget https://www.openssl.org/source/openssl-1.0.2o.tar.gz
-RUN wget http://zlib.net/zlib-1.2.11.tar.gz
-RUN wget https://github.com/simpl/ngx_devel_kit/archive/v0.3.1rc1.tar.gz
-RUN wget https://github.com/openresty/set-misc-nginx-module/archive/v0.32.tar.gz
-RUN wget https://github.com/openresty/echo-nginx-module/archive/v0.61.tar.gz
+WORKDIR /tmp/nginx-1.29.4
+RUN wget https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.47/pcre2-10.47.tar.gz
+RUN wget https://github.com/openssl/openssl/releases/download/openssl-3.6.0/openssl-3.6.0.tar.gz
+RUN wget http://zlib.net/zlib-1.3.1.tar.gz
+RUN wget https://github.com/vision5/ngx_devel_kit/archive/refs/tags/v0.3.4.tar.gz
+RUN wget https://github.com/openresty/set-misc-nginx-module/archive/refs/tags/v0.33.tar.gz
+RUN wget https://github.com/openresty/echo-nginx-module/archive/refs/tags/v0.64.tar.gz
 RUN wget https://github.com/vozlt/nginx-module-url/archive/master.tar.gz
-RUN tar -zxvf pcre-8.42.tar.gz
-RUN tar -zxvf openssl-1.0.2o.tar.gz
-RUN tar -zxvf zlib-1.2.11.tar.gz
-RUN tar -zxvf v0.3.1rc1.tar.gz
-RUN tar -zxvf v0.32.tar.gz
-RUN tar -zxvf v0.61.tar.gz
+RUN tar -zxvf pcre2-10.47.tar.gz
+RUN tar -zxvf openssl-3.6.0
+RUN tar -zxvf zlib-1.3.1.tar.gz
+RUN tar -zxvf v0.3.4.tar.gz
+RUN tar -zxvf v0.33.tar.gz
+RUN tar -zxvf v0.64.tar.gz
 RUN tar -zxvf master.tar.gz
 
 RUN wget https://github.com/nulab/nginx-upstream-jvm-route/archive/v1.12.0.tar.gz
 RUN tar -zxvf v1.12.0.tar.gz
 
-WORKDIR /tmp/nginx-1.15.2/nginx-upstream-jvm-route-1.12.0
+WORKDIR /tmp/nginx-1.29.4/nginx-upstream-jvm-route-1.12.0
 RUN rm -f ngx_http_upstream_jvm_route_module.c
 RUN rm -f jvm_route.patch
 RUN wget https://github.com/nulab/nginx-upstream-jvm-route/raw/master/ngx_http_upstream_jvm_route_module.c
 
-WORKDIR /tmp/nginx-1.15.2
+WORKDIR /tmp/nginx-1.29.4
 RUN wget https://github.com/nulab/nginx-upstream-jvm-route/raw/master/jvm_route.patch
 RUN patch -t -p0 < ./jvm_route.patch 
 
 RUN ./configure --with-http_ssl_module --with-http_v2_module --with-http_realip_module \
-   --add-module=./nginx-upstream-jvm-route-1.12.0/ --with-zlib=./zlib-1.2.11 \
-   --with-pcre=./pcre-8.42 --with-openssl=./openssl-1.0.2o --prefix=/usr/local/nginx \
-   --with-debug --add-module=./ngx_devel_kit-0.3.1rc1/ \
-   --add-module=./set-misc-nginx-module-0.32/ \
-   --add-module=./echo-nginx-module-0.61/ --add-module=./nginx-module-url-master/
+   --add-module=./nginx-upstream-jvm-route-1.12.0/ --with-zlib=./zlib-1.3.1 \
+   --with-pcre=./pcre2-10.47 --with-openssl=./openssl-3.6.0 --prefix=/usr/local/nginx \
+   --with-debug --add-module=./ngx_devel_kit-0.3.4/ \
+   --add-module=./set-misc-nginx-module-0.33/ \
+   --add-module=./echo-nginx-module-0.64/ --add-module=./nginx-module-url-master/
 RUN make
 RUN make install
 
