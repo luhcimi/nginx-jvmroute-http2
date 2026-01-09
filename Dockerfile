@@ -15,7 +15,7 @@ RUN wget https://github.com/openresty/set-misc-nginx-module/archive/refs/tags/v0
 RUN wget https://github.com/openresty/echo-nginx-module/archive/refs/tags/v0.64.tar.gz
 RUN wget https://github.com/vozlt/nginx-module-url/archive/master.tar.gz
 RUN tar -zxvf pcre2-10.47.tar.gz
-RUN tar -zxvf openssl-3.6.0
+RUN tar -zxvf openssl-3.6.0.tar.gz
 RUN tar -zxvf zlib-1.3.1.tar.gz
 RUN tar -zxvf v0.3.4.tar.gz
 RUN tar -zxvf v0.33.tar.gz
