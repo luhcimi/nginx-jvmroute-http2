@@ -22,20 +22,11 @@ RUN tar -zxvf v0.33.tar.gz
 RUN tar -zxvf v0.64.tar.gz
 RUN tar -zxvf master.tar.gz
 
-RUN wget https://github.com/nulab/nginx-upstream-jvm-route/archive/v1.12.0.tar.gz
-RUN tar -zxvf v1.12.0.tar.gz
-
-WORKDIR /tmp/nginx-1.29.4/nginx-upstream-jvm-route-1.12.0
-RUN rm -f ngx_http_upstream_jvm_route_module.c
-RUN rm -f jvm_route.patch
-RUN wget https://github.com/nulab/nginx-upstream-jvm-route/raw/master/ngx_http_upstream_jvm_route_module.c
-
-WORKDIR /tmp/nginx-1.29.4
-RUN wget https://github.com/nulab/nginx-upstream-jvm-route/raw/master/jvm_route.patch
-RUN patch -t -p0 < ./jvm_route.patch 
+RUN wget https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/get/c78b7dd79d0d099e359c5c4394d13c9317b9348f.tar.gz
+RUN tar -zxvf c78b7dd79d0d099e359c5c4394d13c9317b9348f.tar.gz
 
 RUN ./configure --with-http_ssl_module --with-http_v2_module --with-http_realip_module \
-   --add-module=./nginx-upstream-jvm-route-1.12.0/ --with-zlib=./zlib-1.3.1 \
+   --add-module=./nginx-goodies-nginx-sticky-module-ng-c78b7dd79d0d/ --with-zlib=./zlib-1.3.1 \
    --with-pcre=./pcre2-10.47 --with-openssl=./openssl-3.6.0 --prefix=/usr/local/nginx \
    --with-debug --add-module=./ngx_devel_kit-0.3.4/ \
    --add-module=./set-misc-nginx-module-0.33/ \
